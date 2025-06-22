@@ -1,4 +1,4 @@
-class Full_Flag_Test #(
+class Simultaneous_RW_Test #(
     parameter int DEPTH = 8,
     parameter int WIDTH = 8
 ) extends transaction;
@@ -7,22 +7,23 @@ class Full_Flag_Test #(
     function void pre_randomize();
         r_en.rand_mode(0);
         w_en.rand_mode(0);
-        if (count <= DEPTH) begin
-            // Write to the FIFO to make it full and cause overflow
+        c_WR.constraint_mode(0);
+        if (count < DEPTH/2) begin
+            // Write to the FIFO to make it partially filled
             w_en = 1;
             r_en = 0;
-        end else if (count <= DEPTH+2) begin
-            // Read it to make it partially filled
-            w_en = 0;
+        end else if (count < DEPTH+(DEPTH/2)) begin
+            // Simultaneously Read and write from the FIFO 
+            w_en = 1;
             r_en = 1;
         end else begin
-            // write again to make it full
-            w_en = 1;
-            r_en = 0;
+            // Read to make it empty again
+            w_en = 0;
+            r_en = 1;
         end
         count++;
     endfunction
-endclass //Full_Flag_Test extends transaction
+endclass //Simultaneous_RW_Test extends transaction
 
 program test#(
     parameter int DEPTH = 8,
@@ -32,13 +33,13 @@ program test#(
     fifo_interface vif
 );
     // repeatition count for the generator
-    int repeat_count = DEPTH+5;
+    int repeat_count = DEPTH*2;
 
     // Create the environment
     environment #(DEPTH, WIDTH) env = new(vif);
 
     // Create handle for the extended transaction test
-    Full_Flag_Test#(DEPTH, WIDTH) ex_tr = new();
+    Simultaneous_RW_Test#(DEPTH, WIDTH) ex_tr = new();
 
     initial begin
         // Set the repeat count for the generator
