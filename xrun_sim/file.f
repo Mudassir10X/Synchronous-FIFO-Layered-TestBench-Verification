@@ -1,0 +1,10 @@
+../rtl/fifo_interface.sv
+../rtl/fifo.sv
+../tb/transaction.sv
+../tb/generator.sv 
+../tb/driver.sv 
+../tb/monitor.sv 
+../tb/scoreboard.sv
+../tb/env.sv
+../tb/test.sv  
+../tb/top.sv

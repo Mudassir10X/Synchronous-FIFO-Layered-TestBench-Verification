@@ -1,2 +1,3 @@
 xrun_sim/*
 !xrun_sim/run.csh
+!xrun_sim/file.f
