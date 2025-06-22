@@ -15,7 +15,7 @@ class transaction #(
         data_in = '0;
         data_out = '0;
         full = 0;
-        empty = 1; 
+        empty = 0; 
     endfunction // new
 
     // display the transaction

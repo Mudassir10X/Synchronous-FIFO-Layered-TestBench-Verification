@@ -7,13 +7,13 @@ interface fifo_interface #(parameter DEPTH=8, WIDTH=8) (
   logic [WIDTH-1:0] data_out;
   logic             full, empty;
 
-  clocking drv_cb @(posedge clk);
-    // default input #1 output #1;
+  clocking drv_cb @(negedge clk);
+    default output #2;
     output  w_en, r_en, data_in;
   endclocking
 
-  clocking mon_cb @(posedge clk);
-    // default input #1 output #1;
+  clocking mon_cb @(negedge clk);
+    default input #1;
     input w_en, r_en;
     input data_in;
     input data_out;

@@ -69,7 +69,7 @@ class scoreboard #(
                         end
                     end else begin
                         $display("[SCOREBOARD]: Memory is empty, cannot read data.");
-                        tr.data_out = '0; // Empty case
+                        // tr.data_out = '0; // Empty case
                     end
                 end
                 if (tr.w_en) begin
@@ -86,9 +86,9 @@ class scoreboard #(
                 empty = (mem.size() == 0);
 
                 if (tr.full != full)
-                    $display("[SCOREBOARD]: Full flag mismatch. Expected: %0d, Got: %0d", full, tr.full);
+                    $error("[SCOREBOARD]: Full flag mismatch. Expected: %0d, Got: %0d", full, tr.full);
                 if (tr.empty != empty)
-                    $display("[SCOREBOARD]: Empty flag mismatch. Expected: %0d, Got: %0d", empty, tr.empty);
+                    $error("[SCOREBOARD]: Empty flag mismatch. Expected: %0d, Got: %0d", empty, tr.empty);
 
                 // increment the received count
                 received_count++;

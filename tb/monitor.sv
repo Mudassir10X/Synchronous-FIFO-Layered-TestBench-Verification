@@ -27,7 +27,7 @@ class monitor #(
         forever begin
             // Wait for the next clocking event
             @(`MONITOR_IF);
-            #1; // Small delay to allow for clocking events
+            // #1; // Small delay to allow for clocking events
             // Read the FIFO interface signals
             tr.w_en     = `MONITOR_IF.w_en;
             tr.r_en     = `MONITOR_IF.r_en;

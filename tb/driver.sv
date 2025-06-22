@@ -21,12 +21,12 @@ class driver#(
         wait (vif.DRIVER.rst_n == 1);
         // Wait for a transaction from the generator
         forever begin
-            #2; // Small delay to allow for clocking events
+            // #2; // Small delay to allow for clocking events
             if (vif.DRIVER.rst_n == 0) begin
                 // If reset is active, wait for it to be deasserted
-                vif.r_en    <= 0;
-                vif.w_en    <= 0;
-                vif.data_in <= '0;
+                `DRIVER_IF.r_en    <= 0;
+                `DRIVER_IF.w_en    <= 0;
+                `DRIVER_IF.data_in <= '0;
                 $display("[%0t][DRIVER]: Reset is active, waiting for deassertion.", $time);
                 // #5;
                 @(`DRIVER_IF);
@@ -36,9 +36,9 @@ class driver#(
                 // Display the received transaction
                 tr.display("DRIVER");
                 // Driving the transaction to the FIFO interface
-                vif.w_en    <= tr.w_en;
-                vif.r_en    <= tr.r_en;
-                vif.data_in <= tr.data_in;
+                `DRIVER_IF.w_en    <= tr.w_en;
+                `DRIVER_IF.r_en    <= tr.r_en;
+                `DRIVER_IF.data_in <= tr.data_in;
                 // Wait for the clocking event
                 @(`DRIVER_IF);
             end
