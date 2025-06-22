@@ -85,11 +85,12 @@ class scoreboard #(
                 full  = (mem.size() == DEPTH);
                 empty = (mem.size() == 0);
 
-                if (tr.full != full)
+                assert (tr.full == full) else
                     $error("[SCOREBOARD]: Full flag mismatch. Expected: %0d, Got: %0d", full, tr.full);
-                if (tr.empty != empty)
+                assert (tr.empty == empty) else
                     $error("[SCOREBOARD]: Empty flag mismatch. Expected: %0d, Got: %0d", empty, tr.empty);
-
+                assert (!(vif.full && vif.empty)) else
+                    $error("[SCOREBOARD]: Concurrent flags property failed. Full and empty flags cannot be both 1 at the same time.");
                 // increment the received count
                 received_count++;
             end
