@@ -1,8 +1,9 @@
 // Include the neccessary test
 // `include "test.sv"  
+`include "test_reset.sv"
 // `include "test_empty_flag.sv"  
 // `include "test_full_flag.sv"
-`include "test_simultaneous_RW.sv"
+// `include "test_simultaneous_RW.sv"
 
 module top ();
     localparam  WIDTH = 8;
