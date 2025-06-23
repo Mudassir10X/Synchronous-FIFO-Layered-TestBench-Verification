@@ -1,3 +1,8 @@
 xrun_sim/*
 !xrun_sim/run.csh
 !xrun_sim/file.f
+docs/Assg_1_FIFO Verification.odt
+docs/Assg_1_FIFO Verification.pdf
+.gitignore
+docs/.~lock.Assg_1_FIFO Verification.odt#
+docs/NCDC_DV_A 02 (FIFO Verification).pdf

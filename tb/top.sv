@@ -5,7 +5,8 @@
 // `include "test_full_flag.sv"
 // `include "test_simultaneous_RW.sv"
 // `include "test_basic_RW.sv"
-`include "test_RAW.sv"
+// `include "test_RAW.sv"
+`include "test_random_RW.sv"
 
 module top ();
     localparam  WIDTH = 8;

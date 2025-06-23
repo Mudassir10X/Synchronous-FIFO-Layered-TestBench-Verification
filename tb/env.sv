@@ -51,8 +51,8 @@ class environment #(
         
         // Display the final state of the scoreboard
         $display("Post Test: All transactions received by the scoreboard.");
-        $display("Errors: %0d", sb.err_count);
-        $display("Final Memory State: %p", sb.mem);
+        $display("Errors:\t%0d", sb.err_count);
+        $display("Final Memory State:\t%p", sb.mem);
     endtask //post_test()
 
     // Run the environment

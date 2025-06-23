@@ -16,6 +16,7 @@ class scoreboard #(
     // Dummy memory
     logic [WIDTH-1:0]           mem[$];
     logic [WIDTH-1:0]           data_read;
+    int                         curr_size;
 
     // Constructor
     function new(virtual fifo_interface vif, mailbox mbxms);
@@ -58,27 +59,46 @@ class scoreboard #(
                 tr.display("SCOREBOARD");
 
                 // Check the transaction against the dummy memory
-                if (tr.r_en) begin
+                if (tr.r_en && ~tr.w_en) begin
                     // Read operation
                     if (mem.size() > 0) begin
                         data_read = mem.pop_front();
                         if (tr.data_out == data_read)
                             $display("[%0t][SCOREBOARD]\t: Read data matches memory.", $time);
                         else begin
-                            $display("[%0t][SCOREBOARD]\t: Read data does not match memory. Expected: %0h, Got: %0h", $time, tr.data_out, data_read);
+                            $error("[%0t][SCOREBOARD]\t: Read data does not match memory. Expected: %0h, Got: %0h", $time, tr.data_out, data_read);
                             err_count++;
                         end
                     end else begin
                         $display("[%0t][SCOREBOARD]\t: Memory is empty, cannot read data.", $time);
                     end
-                end
-                if (tr.w_en) begin
+                end else if (tr.w_en && ~tr.r_en) begin
                     // Write operation
                     if (mem.size() >= DEPTH) begin
                         $display("[%0t][SCOREBOARD]\t: Memory is full, cannot write data.", $time);
                     end else begin
                         mem.push_back(tr.data_in);
                     end
+                end else if (tr.w_en && tr.r_en) begin
+                        curr_size = mem.size();
+                        // Write operation
+                        if (curr_size >= DEPTH) begin
+                            $display("[%0t][SCOREBOARD]\t: Memory is full, cannot write data.", $time);
+                        end else begin
+                            mem.push_back(tr.data_in);
+                        end
+                        // Read operation
+                        if (curr_size > 0) begin
+                            data_read = mem.pop_front();
+                            assert (tr.data_out == data_read)
+                                $display("[%0t][SCOREBOARD]\t: Read data matches memory.", $time);
+                            else begin
+                                $error("[%0t][SCOREBOARD]\t: Read data does not match memory. Expected: %0h, Got: %0h", $time, tr.data_out, data_read);
+                                err_count++;
+                            end
+                        end else begin
+                            $display("[%0t][SCOREBOARD]\t: Memory is empty, cannot read data.", $time);
+                        end
                 end
 
                 // Update the full and empty flags
