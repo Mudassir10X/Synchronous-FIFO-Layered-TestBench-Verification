@@ -12,10 +12,10 @@ class environment #(
     event gdone;
 
     // Class Properties
-    generator #(DEPTH, WIDTH)    gen;
-    driver #(DEPTH, WIDTH)       drv;
-    monitor #(DEPTH, WIDTH)      mon;
-    scoreboard #(DEPTH, WIDTH)   sb;
+    generator   #(DEPTH, WIDTH) gen;
+    driver      #(DEPTH, WIDTH) drv;
+    monitor     #(DEPTH, WIDTH) mon;
+    scoreboard  #(DEPTH, WIDTH) sb;
 
     // Constructor
     function new(virtual fifo_interface vif);
@@ -45,7 +45,10 @@ class environment #(
     task post_test();
         // Wait for the generator to finish
         wait (gdone.triggered);
+
+        // Wait for the scoreboard to receive all transactions
         wait (sb.received_count == gen.repeat_count);
+        
         // Display the final state of the scoreboard
         $display("Post Test: All transactions received by the scoreboard.");
         $display("Errors: %0d", sb.err_count);
@@ -56,7 +59,7 @@ class environment #(
     task run();
         // Start the test
         test();
-        // Wait for the post-test conditions
+        // Start the post-test as soon as the test is done as it has wait conditions for the test to finish
         post_test();
     endtask //run()
 endclass //environment

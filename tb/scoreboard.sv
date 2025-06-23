@@ -3,19 +3,19 @@ class scoreboard #(
     parameter int WIDTH = 8
 );
     // Interface handle
-    virtual fifo_interface vif;
+    virtual fifo_interface      vif;
     // Mailbox for communication with the monitor
-    mailbox mbxms;
+    mailbox                     mbxms;
     // Class Properties
-    transaction#(DEPTH, WIDTH) tr;
-    int received_count;
-    int err_count = 0; // Error count for mismatches
+    transaction #(DEPTH, WIDTH) tr;
+    int                         received_count;
+    int                         err_count = 0; // Error count for mismatches
     // Flags for full and empty states
-    bit full, empty;
+    bit                         full, empty;
 
     // Dummy memory
-    logic [WIDTH-1:0] mem[$];
-    logic [WIDTH-1:0] data_read;
+    logic [WIDTH-1:0]           mem[$];
+    logic [WIDTH-1:0]           data_read;
 
     // Constructor
     function new(virtual fifo_interface vif, mailbox mbxms);
@@ -24,9 +24,6 @@ class scoreboard #(
 
         // Initialize the mailbox
         this.mbxms = mbxms;
-
-        // initialize dummy memory
-        // mem = new;
 
         {empty, full} = 2'b10; // Initialize empty and full flags to zero state
     endfunction //new()
@@ -38,6 +35,7 @@ class scoreboard #(
             if (vif.rst_n == 0) begin
                 // If reset is active, wait for it to be deasserted
                 $display("[SCOREBOARD]: Reset is active, clearing dummy FIFO.");
+
                 // If reset is active, reset the memory
                 repeat (DEPTH) begin
                     if (mem.size() > 0) begin
@@ -47,7 +45,10 @@ class scoreboard #(
                         break; // Exit the loop if memory is empty
                     end
                 end
-                {empty, full} = 2'b10; // Initialize empty and full flags to reset state
+
+                // Initialize empty and full flags to reset state
+                {empty, full} = 2'b10; 
+                // Wait for the reset to be deasserted
                 @(posedge vif.rst_n);
             end else begin
                 // Get the transaction from the mailbox
@@ -69,7 +70,6 @@ class scoreboard #(
                         end
                     end else begin
                         $display("[SCOREBOARD]: Memory is empty, cannot read data.");
-                        // tr.data_out = '0; // Empty case
                     end
                 end
                 if (tr.w_en) begin

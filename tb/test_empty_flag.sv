@@ -5,8 +5,10 @@ class Empty_Flag_Test #(
     static int count;
 
     function void pre_randomize();
+        // Disable randomization for w_en and r_en
         r_en.rand_mode(0);
         w_en.rand_mode(0);
+        // Start the counting conditions on static variable so that the test can be controlled
         if (count <= 2) begin
             // Write to the FIFO to fill it partially
             w_en = 1;

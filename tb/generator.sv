@@ -3,11 +3,11 @@ class generator #(
     parameter int WIDTH = 8
 );
     // Class Properties
-    transaction#(DEPTH, WIDTH) tr;
-    int         repeat_count;
-    int         curr_id;
-    event       gdone;
-    mailbox     mbxgd;
+    transaction #(DEPTH, WIDTH) tr;
+    int                         repeat_count;
+    int                         curr_id;
+    event                       gdone;
+    mailbox                     mbxgd;
 
     
     function new(mailbox mbxgd, event gdone, int repeat_count = 10);

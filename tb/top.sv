@@ -41,9 +41,17 @@ module top ();
         .empty(fifo_if.empty)
     );
 
-    // Test for FIFO
+    // Below are layered and simple testbenches instantiations for FIFO testbenches. Comment and uncomment as reqired.
+
+    // Layered TestBench for FIFO
     test #(DEPTH, WIDTH) fifo_test (
         .vif(fifo_if)
     );
+
+    // `include "fifo_test.sv"
+    // // Simple TestBench and tests for FIFO
+    // fifo_test #(DEPTH, WIDTH) fifo_test (
+    //     .vif(fifo_if)
+    // );
 
 endmodule

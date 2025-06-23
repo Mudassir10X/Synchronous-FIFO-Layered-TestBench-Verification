@@ -10,22 +10,22 @@ class transaction #(
     // Constructor
     function new();
         // Initialize the transaction properties
-        w_en = 0;
-        r_en = 0;
-        data_in = '0;
-        data_out = '0;
-        full = 0;
-        empty = 0; 
+        w_en        = 0;
+        r_en        = 0;
+        data_in     = '0;
+        data_out    = '0;
+        full        = 0;
+        empty       = 0; 
     endfunction // new
 
     // display the transaction
     function void display(string prefix = "Transaction", int curr_id = -1);
         if (curr_id == -1)
             $display("[%0t][%s]\t: w_en=%0d, r_en=%0d, data_in=%0h, data_out=%0h, full=%0d, empty=%0d", 
-                       $time, prefix, w_en, r_en, data_in, data_out, full, empty);
+                    $time, prefix, w_en,     r_en,     data_in,     data_out,     full,     empty);
         else
             $display("[%0d][%0t][%s]\t: w_en=%0d, r_en=%0d, data_in=%0h, data_out=%0h, full=%0d, empty=%0d", 
-                       curr_id, $time, prefix,  w_en, r_en, data_in, data_out, full, empty);
+                curr_id, $time, prefix, w_en,     r_en,     data_in,     data_out,     full,     empty);
     endfunction // display
 
     // copy the transaction
