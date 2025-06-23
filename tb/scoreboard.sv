@@ -34,7 +34,7 @@ class scoreboard #(
         forever begin
             if (vif.rst_n == 0) begin
                 // If reset is active, wait for it to be deasserted
-                $display("[SCOREBOARD]: Reset is active, clearing dummy FIFO.");
+                $display("[%0t][SCOREBOARD]\t: Reset is active, clearing dummy FIFO.", $time);
 
                 // If reset is active, reset the memory
                 repeat (DEPTH) begin
@@ -63,19 +63,19 @@ class scoreboard #(
                     if (mem.size() > 0) begin
                         data_read = mem.pop_front();
                         if (tr.data_out == data_read)
-                            $display("[SCOREBOARD]: Read data matches memory.");
+                            $display("[%0t][SCOREBOARD]\t: Read data matches memory.", $time);
                         else begin
-                            $display("[SCOREBOARD]: Read data does not match memory. Expected: %0h, Got: %0h", tr.data_out, data_read);
+                            $display("[%0t][SCOREBOARD]\t: Read data does not match memory. Expected: %0h, Got: %0h", $time, tr.data_out, data_read);
                             err_count++;
                         end
                     end else begin
-                        $display("[SCOREBOARD]: Memory is empty, cannot read data.");
+                        $display("[%0t][SCOREBOARD]\t: Memory is empty, cannot read data.", $time);
                     end
                 end
                 if (tr.w_en) begin
                     // Write operation
                     if (mem.size() >= DEPTH) begin
-                        $display("[SCOREBOARD]: Memory is full, cannot write data.");
+                        $display("[%0t][SCOREBOARD]\t: Memory is full, cannot write data.", $time);
                     end else begin
                         mem.push_back(tr.data_in);
                     end
@@ -86,11 +86,11 @@ class scoreboard #(
                 empty = (mem.size() == 0);
 
                 assert (tr.full == full) else
-                    $error("[SCOREBOARD]: Full flag mismatch. Expected: %0d, Got: %0d", full, tr.full);
+                    $error("[%0t][SCOREBOARD]\t: Full flag mismatch. Expected: %0d, Got: %0d", $time, full, tr.full);
                 assert (tr.empty == empty) else
-                    $error("[SCOREBOARD]: Empty flag mismatch. Expected: %0d, Got: %0d", empty, tr.empty);
+                    $error("[%0t][SCOREBOARD]\t: Empty flag mismatch. Expected: %0d, Got: %0d", $time, empty, tr.empty);
                 assert (!(vif.full && vif.empty)) else
-                    $error("[SCOREBOARD]: Concurrent flags property failed. Full and empty flags cannot be both 1 at the same time.");
+                    $error("[%0t][SCOREBOARD]\t: Concurrent flags property failed. Full and empty flags cannot be both 1 at the same time.", $time);
                 // increment the received count
                 received_count++;
             end

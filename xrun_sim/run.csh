@@ -2,7 +2,7 @@
 
 source ~/cshrc
 clear
-xrun -access +rwc -64bit -top top -f file.f -timescale 1ns/1ns
+xrun -access +rwc -64bit -top top -f file.f -timescale 1ns/1ns #-l ./aa/xrun.log -nolog
 
 # Check if the success count matches the expected count
 # set expected_count = `cat xrun.log | grep -c "\[DRIVER\].*r_en=1.*"`  # Set your expected number here
