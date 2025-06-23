@@ -1,21 +1,18 @@
-class scoreboard #(
-    parameter int DEPTH = 8,
-    parameter int WIDTH = 8
-);
+class scoreboard;
     // Interface handle
     virtual fifo_interface      vif;
     // Mailbox for communication with the monitor
     mailbox                     mbxms;
     // Class Properties
-    transaction #(DEPTH, WIDTH) tr;
-    int                         received_count;
-    int                         err_count = 0; // Error count for mismatches
+    transaction tr;
+    int         received_count;
+    int         err_count = 0; // Error count for mismatches
     // Flags for full and empty states
     bit                         full, empty;
 
     // Dummy memory
-    logic [WIDTH-1:0]           mem[$];
-    logic [WIDTH-1:0]           data_read;
+    logic [`WIDTH-1:0]           mem[$];
+    logic [`WIDTH-1:0]           data_read;
     int                         curr_size;
 
     // Constructor
@@ -38,7 +35,7 @@ class scoreboard #(
                 $display("[%0t][SCOREBOARD]\t: Reset is active, clearing dummy FIFO.", $time);
 
                 // If reset is active, reset the memory
-                repeat (DEPTH) begin
+                repeat (`DEPTH) begin
                     if (mem.size() > 0) begin
                         data_read = mem.pop_front();
                     end else begin
@@ -74,7 +71,7 @@ class scoreboard #(
                     end
                 end else if (tr.w_en && ~tr.r_en) begin
                     // Write operation
-                    if (mem.size() >= DEPTH) begin
+                    if (mem.size() >= `DEPTH) begin
                         $display("[%0t][SCOREBOARD]\t: Memory is full, cannot write data.", $time);
                     end else begin
                         mem.push_back(tr.data_in);
@@ -82,7 +79,7 @@ class scoreboard #(
                 end else if (tr.w_en && tr.r_en) begin
                         curr_size = mem.size();
                         // Write operation
-                        if (curr_size >= DEPTH) begin
+                        if (curr_size >= `DEPTH) begin
                             $display("[%0t][SCOREBOARD]\t: Memory is full, cannot write data.", $time);
                         end else begin
                             mem.push_back(tr.data_in);
@@ -102,7 +99,7 @@ class scoreboard #(
                 end
 
                 // Update the full and empty flags
-                full  = (mem.size() == DEPTH);
+                full  = (mem.size() == `DEPTH);
                 empty = (mem.size() == 0);
 
                 assert (tr.full == full) else

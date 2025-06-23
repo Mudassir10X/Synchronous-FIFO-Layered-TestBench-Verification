@@ -1,16 +1,15 @@
 // Include the neccessary test
-// `include "test.sv"  
-// `include "test_reset.sv"
+`include "test_reset.sv"
 // `include "test_empty_flag.sv"  
 // `include "test_full_flag.sv"
-// `include "test_simultaneous_RW.sv"
 // `include "test_basic_RW.sv"
 // `include "test_RAW.sv"
-`include "test_random_RW.sv"
+// `include "test_simultaneous_RW.sv"
+// `include "test_random_RW.sv"
 
 module top ();
-    localparam  WIDTH = 8;
-    localparam  DEPTH = 8;
+    // localparam  int WIDTH = 8;
+    // localparam  int DEPTH = 16;
     bit         clk;
     bit         rst_n=1;
     
@@ -28,13 +27,13 @@ module top ();
     end
 
     //  Instantiating FIFO Interface
-    fifo_interface #(DEPTH, WIDTH) fifo_if (
+    fifo_interface fifo_if (
         .clk(clk),
         .rst_n(rst_n)
     );
 
     //  Instantiating FIFO Module
-    synchronous_fifo #(DEPTH, WIDTH) FIFO (
+    synchronous_fifo #(`DEPTH, `WIDTH) FIFO (
         .clk(fifo_if.clk),
         .rst_n(fifo_if.rst_n),
         .w_en(fifo_if.w_en),
@@ -48,7 +47,7 @@ module top ();
     // Below are layered and simple testbenches instantiations for FIFO testbenches. Comment and uncomment as reqired.
 
     // Layered TestBench for FIFO
-    test #(DEPTH, WIDTH) fifo_test (
+    test fifo_test (
         .vif(fifo_if)
     );
 

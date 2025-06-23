@@ -1,7 +1,4 @@
-class reset_Test #(
-    parameter int DEPTH = 8,
-    parameter int WIDTH = 8
-) extends transaction;
+class reset_Test extends transaction;
     function void pre_randomize();
         // Disable randomization for w_en and r_en
         r_en.rand_mode(0);
@@ -12,21 +9,18 @@ class reset_Test #(
     endfunction
 endclass //reset_Test extends transaction
 
-program test#(
-    parameter int DEPTH = 8,
-    parameter int WIDTH = 8
-)
+program test
 (
-    fifo_interface vif
+    fifo_interface vif 
 );
     // repeatition count for the generator
     int repeat_count = 5;
 
     // Create the environment
-    environment #(DEPTH, WIDTH) env = new(vif);
+    environment  env = new(vif);
 
     // Create handle for the extended transaction test
-    reset_Test  #(DEPTH, WIDTH) ex_tr = new();
+    reset_Test   ex_tr = new();
 
     initial begin
         // Set the repeat count for the generator

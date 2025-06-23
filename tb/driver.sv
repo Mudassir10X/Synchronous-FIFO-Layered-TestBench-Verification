@@ -1,13 +1,10 @@
 `define DRIVER_IF vif.DRIVER.drv_cb
-class driver#(
-    parameter int DEPTH = 8,
-    parameter int WIDTH = 8
-);
+class driver;
     // Interface handle
     virtual fifo_interface vif;
     mailbox mbxgd;
     // Class Properties
-    transaction#(DEPTH, WIDTH) tr;
+    transaction tr;
     function new(virtual fifo_interface vif, mailbox mbxgd);
         // Initialize the interface handle
         this.vif = vif;

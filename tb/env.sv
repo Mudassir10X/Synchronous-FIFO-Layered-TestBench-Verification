@@ -1,7 +1,4 @@
-class environment #(
-    parameter int DEPTH = 8,
-    parameter int WIDTH = 8
-);
+class environment;
     // Interface handle
     virtual fifo_interface vif;
     
@@ -12,10 +9,10 @@ class environment #(
     event gdone;
 
     // Class Properties
-    generator   #(DEPTH, WIDTH) gen;
-    driver      #(DEPTH, WIDTH) drv;
-    monitor     #(DEPTH, WIDTH) mon;
-    scoreboard  #(DEPTH, WIDTH) sb;
+    generator   gen;
+    driver      drv;
+    monitor     mon;
+    scoreboard  sb;
 
     // Constructor
     function new(virtual fifo_interface vif);

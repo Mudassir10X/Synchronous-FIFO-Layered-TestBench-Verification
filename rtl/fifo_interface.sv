@@ -1,10 +1,10 @@
-interface fifo_interface #(parameter DEPTH=8, WIDTH=8) (
+interface fifo_interface (
 input logic clk,
 input logic rst_n
 );
   logic             w_en, r_en;
-  logic [WIDTH-1:0] data_in;
-  logic [WIDTH-1:0] data_out;
+  logic [`WIDTH-1:0] data_in;
+  logic [`WIDTH-1:0] data_out;
   logic             full, empty;
 
   clocking drv_cb @(negedge clk);

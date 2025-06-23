@@ -1,10 +1,7 @@
-class transaction #(
-    parameter int DEPTH = 8,
-    parameter int WIDTH = 8
-);
+class transaction;
     rand    logic               w_en, r_en;
-    rand    logic [WIDTH-1:0]   data_in;
-            logic [WIDTH-1:0]   data_out;
+    rand    logic [`WIDTH-1:0]   data_in;
+            logic [`WIDTH-1:0]   data_out;
             logic               full, empty;
 
     // Constructor
@@ -29,8 +26,8 @@ class transaction #(
     endfunction // display
 
     // copy the transaction
-    function transaction#(DEPTH, WIDTH) copy();
-        transaction#(DEPTH, WIDTH) tr = new();
+    function transaction copy();
+        transaction tr = new();
         tr.w_en     = this.w_en;
         tr.r_en     = this.r_en;
         tr.data_in  = this.data_in;

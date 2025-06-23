@@ -1,13 +1,10 @@
 `define MONITOR_IF vif.MONITOR.mon_cb
-class monitor #(
-    parameter int DEPTH = 8,
-    parameter int WIDTH = 8
-);
+class monitor;
     // Interface handle
     virtual fifo_interface vif;
     mailbox mbxms;
     // Class Properties
-    transaction#(DEPTH, WIDTH) tr;
+    transaction tr;
 
     // Constructor
     function new(virtual fifo_interface vif, mailbox mbxms);

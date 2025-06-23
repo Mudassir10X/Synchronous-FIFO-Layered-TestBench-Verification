@@ -1,4 +1,4 @@
--incdir ../rtl
+../tb/FIFO_macros.sv
 -incdir ../tb
 ../rtl/fifo_interface.sv
 ../rtl/fifo.sv
