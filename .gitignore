@@ -6,3 +6,6 @@ docs/Assg_1_FIFO Verification.pdf
 .gitignore
 docs/.~lock.Assg_1_FIFO Verification.odt#
 docs/NCDC_DV_A 02 (FIFO Verification).pdf
+docs/Assg_2_FIFO Layered TestBench Verification.pdf
+.gitignore
+docs/2_FIFO Layered TestBench Verification.odt
